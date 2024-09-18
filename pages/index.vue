@@ -18,7 +18,8 @@
              required type="url">
       <button class="p-3 rounded-xl bg-slate-950 text-white uppercase font-bold w-full sm:w-48 lg:w-56 border-indigo-500 border"
               type="submit">
-        Shorten
+        <AppLoadingIcon v-if="isProcessing"/>
+        <span v-else>Shorten</span>
       </button>
     </form>
   </div>
@@ -61,13 +62,16 @@
 import AppStarIcon from "~/components/icons/AppStarIcon.vue";
 import AppSuccessIcon from "~/components/icons/AppSuccessIcon.vue";
 import AppErrorIcon from "~/components/icons/AppErrorIcon.vue";
+import AppLoadingIcon from "~/components/icons/AppLoadingIcon.vue";
 
 const config = useRuntimeConfig();
 const original_url = ref('');
 const short_id = ref('');
 const error = ref('');
+const isProcessing = ref(false)
 
 const createUrl = async () => {
+  isProcessing.value = true;
   const result = await $fetch('/api/create', {
     method: 'POST',
     body: {
@@ -75,6 +79,7 @@ const createUrl = async () => {
     },
   });
 
+  isProcessing.value = false;
   if (result.error) {
     error.value = result.error;
     sendToast(error.value, "error")
