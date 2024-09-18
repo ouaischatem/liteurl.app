@@ -65,5 +65,10 @@ export default defineNuxtConfig({
         redirect: false
     },
 
-    modules: ['@nuxtjs/supabase'],
+    site: {
+        url: 'https://www.liteurl.app',
+        name: 'LiteURL - Shorten & Track URLs',
+    },
+
+    modules: ['@nuxtjs/supabase', '@nuxtjs/sitemap'],
 })
