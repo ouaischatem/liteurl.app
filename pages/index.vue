@@ -24,7 +24,7 @@
     </form>
   </div>
 
-  <AppModal v-if="short_id">
+  <AppModal :is-visible="short_id.length > 0">
     <AppSuccessIcon/>
     <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white mb-2 text-center">URL Successfully
       Shortened!</h2>
@@ -44,7 +44,7 @@
     </button>
   </AppModal>
 
-  <AppModal v-if="error">
+  <AppModal :is-visible="error.length > 0">
     <AppErrorIcon/>
     <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white mb-2 text-center">Something Went Wrong!</h2>
     <p class="text-gray-400 mb-6 text-center">
