@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const { data: clickData, error: clickError } = await supabase
-        .from('clicks')
+        .from('analytics')
         .select('*')
         .eq('short_id', short_id);
 
