@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import AppLoadingIcon from "~/components/icons/AppLoadingIcon.vue";
 const router = useRouter();
 const route = useRoute();
 
@@ -10,7 +11,7 @@ onMounted(async () => {
     return;
   }
 
-  const response = await fetch(`/api/resolve/${short_id}`);
+  const response = await fetch(`/api/urls/${short_id}`);
   const data = await response.json();
 
   if (response.ok && data.original_url) {
@@ -23,7 +24,7 @@ onMounted(async () => {
 
 <template>
   <div class="h-screen justify-center items-center bg-black flex flex-col gap-y-2">
-    <div class="w-20 h-20 border-4 border-t-4 border-gray-300 border-t-pink-400 rounded-full animate-spin-fast"></div>
+    <AppLoadingIcon/>
     <h1 class="text-center text-pink-400 uppercase font-semibold text-xl ml-3">
       Redirecting...
     </h1>
@@ -31,16 +32,4 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.animate-spin-fast {
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 </style>

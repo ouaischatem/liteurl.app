@@ -76,7 +76,7 @@ const isProcessing = ref(false)
 
 const createUrl = async () => {
   isProcessing.value = true;
-  const result = await $fetch('/api/create', {
+  const result = await $fetch('/api/urls/create', {
     method: 'POST',
     body: {
       original_url: original_url.value,
