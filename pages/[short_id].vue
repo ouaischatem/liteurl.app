@@ -11,13 +11,21 @@ onMounted(async () => {
     return;
   }
 
-  const response = await fetch(`/api/urls/${short_id}`);
-  const data = await response.json();
+  const data = await $fetch(`/api/urls/${short_id}`) as { original_url?: string };
 
-  if (response.ok && data.original_url) {
+  if (data && data.original_url) {
     window.location.href = data.original_url;
+
+    await $fetch('/api/analytics/track', {
+      method: 'POST',
+      body: { short_id },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     return;
   }
+
   await router.push('/');
 });
 </script>
