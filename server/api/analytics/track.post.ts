@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const os = parser.getOS().name || 'Unknown';
     const browser = parser.getBrowser().name || 'Unknown';
 
-    const geoData = await $fetch(`https://ip-api.com/json/${ip}?fields=country`);
+    const geoData = await $fetch(`http://ip-api.com/json/${ip}?fields=country`);
     let country = (geoData as any).country ?? 'Unknown';
 
     const { error: insertError } = await supabase
