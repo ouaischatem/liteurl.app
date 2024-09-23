@@ -4,6 +4,7 @@ export interface ClickDetail {
     os: string;
     browser: string;
     country: string;
+    countryCode: string;
     timestamp: string;
 }
 
@@ -16,4 +17,5 @@ export interface AnalyticsData {
 export interface UsageCount {
     name: string;
     count: number;
+    country?: string;
 }

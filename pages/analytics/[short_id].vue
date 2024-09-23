@@ -11,13 +11,21 @@ const browserData = ref<UsageCount[]>([]);
 const countryData = ref<UsageCount[]>([]);
 
 const generateDataCount = (key: 'os' | 'country' | 'browser') => {
-  return Object.entries(
-      data.value?.details.reduce<Record<string, number>>((acc, detail) => {
-        const value = detail[key];
-        acc[value] = (acc[value] || 0) + 1;
-        return acc;
-      }, {}) || {}
-  ).map(([name, count]) => ({ name, count }));
+  const result = data.value?.details.reduce<Record<string, UsageCount>>((acc, detail) => {
+    const value = detail[key];
+
+    if (value) {
+      if (!acc[value]) {
+        const country = key === 'country' ? detail.countryCode : undefined;
+        acc[value] = { name: value, count: 0, country };
+      }
+      acc[value].count += 1;
+    }
+
+    return acc;
+  }, {}) || {};
+
+  return Object.values(result);
 };
 
 onMounted(async () => {

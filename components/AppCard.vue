@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type {UsageCount} from "~/types/analytics";
+
 const props = defineProps({
   title: {
     type: String,
     default: ''
   },
   data: {
-    type: Array as () => { name: string; count: number }[],
+    type: Array as () => UsageCount[],
     default: () => []
   }
 });
@@ -30,8 +32,13 @@ const limitedData = computed(() => props.data.slice(0, 5));
           index === 4 ? 'opacity-50' : ''
         ]"
       >
-        <div class="flex flex-row justify-between bg-slate-900 p-1 px-3 rounded-lg text-white font-medium hover:bg-slate-800">
-          <span>{{ item.name }}</span>
+        <div class="flex flex-row justify-between bg-slate-900 p-1 px-3 py-2 rounded-lg text-white font-medium hover:bg-slate-800">
+          <div class="flex flex-row gap-x-2">
+            <img v-if="item.country" class="w-5 h-5 mt-0.5 shadow shadow-slate-600"
+                 :src="`https://flagcdn.com/${item.country.toLowerCase()}.svg`"
+                 :alt=item.name>
+            <span>{{ item.name }}</span>
+          </div>
           <span>{{ item.count }}</span>
         </div>
       </div>
