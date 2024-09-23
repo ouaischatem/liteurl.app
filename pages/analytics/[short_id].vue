@@ -8,8 +8,9 @@ const data = ref<AnalyticsData>();
 const error = ref(false);
 const osData = ref<UsageCount[]>([]);
 const browserData = ref<UsageCount[]>([]);
+const countryData = ref<UsageCount[]>([]);
 
-const generateDataCount = (key: 'os' | 'browser') => {
+const generateDataCount = (key: 'os' | 'country' | 'browser') => {
   return Object.entries(
       data.value?.details.reduce<Record<string, number>>((acc, detail) => {
         const value = detail[key];
@@ -26,6 +27,7 @@ onMounted(async () => {
 
     osData.value = generateDataCount('os');
     browserData.value = generateDataCount('browser');
+    countryData.value = generateDataCount('country');
     return;
   }
   error.value = true;
@@ -51,6 +53,10 @@ const openAnalytics = () => {
 
   <div>
     <div class="flex md:flex-row flex-col gap-y-5 gap-x-3 items-center justify-center md:p-10">
+      <AppCard
+          title="Countries"
+          :data="countryData"
+      />
       <AppCard
           title="Browsers"
           :data="browserData"

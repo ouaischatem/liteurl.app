@@ -11,14 +11,19 @@ export default defineEventHandler(async (event) => {
     }
 
     const userAgentString = event.node.req.headers['user-agent'] || '';
+    const ip = event.node.req.headers['x-forwarded-for'] || event.node.req.socket.remoteAddress;
+
     const parser = new UAParser(userAgentString);
-    const os = parser.getOS().name || 'Unknown OS';
-    const browser = parser.getBrowser().name || 'Unknown Browser';
+    const os = parser.getOS().name || 'Unknown';
+    const browser = parser.getBrowser().name || 'Unknown';
+
+    const geoData = await $fetch(`https://ip-api.com/json/${ip}?fields=country`);
+    let country = (geoData as any).country ?? 'Unknown';
 
     const { error: insertError } = await supabase
         .from('analytics')
         .insert([
-            { short_id, os, browser }
+            { short_id, os, browser, country }
         ]);
 
     if (insertError) {

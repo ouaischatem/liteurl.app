@@ -3,6 +3,7 @@ export interface ClickDetail {
     short_id: string;
     os: string;
     browser: string;
+    country: string;
     timestamp: string;
 }
 
