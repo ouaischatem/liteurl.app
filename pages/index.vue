@@ -11,16 +11,22 @@
   <h2 class="text-center text-gray-400 text-sm sm:text-base lg:text-lg">
     Enter a website URL to generate a shorter link and share it <br/> easily across your platforms
   </h2>
-  <form class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-2" @submit.prevent="createUrl">
-    <input id="original_url" v-model="original_url" class="w-full sm:w-64 lg:w-80 p-3 placeholder:text-sm sm:placeholder:text-lg lg:placeholder:text-xl font-medium bg-slate-800 rounded-xl text-white outline-0 ring-0"
-           placeholder="Your website URL"
+  <form class="flex flex-col items-center justify-center gap-y-3" @submit.prevent="createUrl">
+    <input id="url" v-model="url" class="w-80 lg:w-96 p-3 placeholder:text-sm sm:placeholder:text-lg lg:placeholder:text-xl font-medium bg-slate-800 rounded-xl text-white outline-0 ring-0"
+           placeholder="Entre the URL"
            required type="url">
-    <button class="p-3 rounded-xl bg-slate-950 text-white uppercase font-bold w-full sm:w-48 lg:w-56 border-indigo-500 border"
+    <button class="w-80 lg:w-96 p-2 rounded-xl text-white uppercase font-bold bg-indigo-500 hover:bg-indigo-400"
             type="submit">
       <AppLoadingIcon v-if="isProcessing"/>
       <span v-else>Shorten</span>
     </button>
   </form>
+  <div class="flex justify-center -m-4">
+    <a class="cursor-pointer text-center w-80 lg:w-96 p-2 rounded-xl text-white uppercase font-bold bg-pink-500 hover:bg-pink-400"
+       @click="openAnalytics">
+      <span>Go to analytics</span>
+    </a>
+  </div>
 
   <AppModal :is-visible="short_id.length > 0">
     <AppSuccessIcon/>
@@ -69,7 +75,7 @@ import AppErrorIcon from "~/components/icons/AppErrorIcon.vue";
 import AppLoadingIcon from "~/components/icons/AppLoadingIcon.vue";
 
 const config = useRuntimeConfig();
-const original_url = ref('');
+const url = ref('');
 const short_id = ref('');
 const error = ref('');
 const isProcessing = ref(false)
@@ -79,7 +85,7 @@ const createUrl = async () => {
   const result = await $fetch('/api/urls/create', {
     method: 'POST',
     body: {
-      original_url: original_url.value,
+      original_url: url.value,
     },
   });
 
@@ -90,7 +96,7 @@ const createUrl = async () => {
     return;
   }
   short_id.value = result.data.short_id;
-  original_url.value = '';
+  url.value = '';
 };
 
 const closeModal = () => {
@@ -104,7 +110,22 @@ const copyToClipboard = () => {
 };
 
 const openAnalytics = () => {
-  navigateTo(`analytics/${short_id.value}`)
+  let identifier
+  if (short_id.value) {
+    identifier = short_id.value;
+  } else if (url.value) {
+    const input = url.value.trim();
+
+    if (input.includes('/')) {
+      const segments = input.split('/');
+      identifier = segments.pop();
+    } else {
+      identifier = input;
+    }
+  }
+  if (identifier) {
+    navigateTo(`/analytics/${identifier}`)
+  }
 }
 </script>
 
