@@ -70,5 +70,5 @@ export default defineNuxtConfig({
         name: 'LiteURL - Shorten & Track URLs',
     },
 
-    modules: ['@nuxtjs/supabase', '@nuxtjs/sitemap'],
+    modules: ['@nuxtjs/supabase', '@nuxtjs/sitemap', 'nuxt-echarts'],
 })
