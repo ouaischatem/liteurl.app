@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { AnalyticsData, UsageCount } from "~/types/analytics";
 import AppErrorIcon from "~/components/icons/AppErrorIcon.vue";
+import AppArrowIcon from "~/components/icons/AppArrowIcon.vue";
 
 const route = useRoute();
 const shortId = route.params.short_id as string;
@@ -59,8 +60,18 @@ const openAnalytics = () => {
     </button>
   </AppModal>
 
-  <div>
-    <div class="flex md:flex-row flex-col gap-y-5 gap-x-3 items-center justify-center md:p-10">
+  <div class="flex flex-col p-16 gap-y-5" v-if="data">
+    <div class="flex flex-col gap-y-2">
+      <h1 class="text-white font-semibold text-3xl">URL Analytics</h1>
+      <div class="flex flex-row gap-x-2">
+        <h1 class="font-medium text-gray-300 mt-0.5">{{data.original_url}}</h1>
+        <AppArrowIcon/>
+      </div>
+    </div>
+    <div class="border border-gray-700 rounded-lg">
+      <AppChart/>
+    </div>
+    <div class="flex md:flex-row flex-col gap-y-5 gap-x-5 items-center justify-center">
       <AppCard
           title="Countries"
           :data="countryData"
