@@ -16,7 +16,7 @@ const limitedData = computed(() => props.data.slice(0, 5));
 </script>
 
 <template>
-  <div class="flex flex-col border border-gray-700 md:w-1/3 w-full rounded-lg md:h-84">
+  <div class="flex flex-col border border-gray-700 md:w-1/3 w-full rounded-lg md:h-96">
     <div class="flex flex-row justify-between p-3 pt-5 pb-5 px-5">
       <h1 class="text-white text-lg font-medium">{{ title }}</h1>
       <h1 class="text-gray-400 text-sm font-normal uppercase mt-1.5">Visitors</h1>
