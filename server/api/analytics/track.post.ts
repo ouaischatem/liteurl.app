@@ -17,12 +17,18 @@ export default defineEventHandler(async (event) => {
     const parser = new UAParser(userAgentString);
     const os = parser.getOS().name || 'Unknown';
     const browser = parser.getBrowser().name || 'Unknown';
-    const { country, countryCode } = await fetchGeoData(ip);
+    const { country, country_code } = await fetchGeoData(ip);
 
     const { error: insertError } = await supabase
         .from('analytics')
         .insert([
-            { short_id, os, browser, country, countryCode }
+            {
+                short_id: short_id,
+                os: os,
+                browser: browser,
+                country: country,
+                country_code: country_code
+            }
         ]);
 
     if (insertError) {
@@ -35,6 +41,6 @@ async function fetchGeoData(ip: string | undefined) {
     const geoData: any = await $fetch(`http://ip-api.com/json/${ip}?fields=country,countryCode`);
     return {
         country: geoData.country || 'Unknown',
-        countryCode: geoData.countryCode || 'Unknown',
+        country_code: geoData.country_code || 'Unknown',
     };
 }

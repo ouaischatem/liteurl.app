@@ -4,7 +4,7 @@ export interface ClickDetail {
     os: string;
     browser: string;
     country: string;
-    countryCode: string;
+    country_code: string;
     timestamp: string;
 }
 
