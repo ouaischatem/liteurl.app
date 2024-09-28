@@ -17,7 +17,7 @@ const generateDataCount = (key: 'os' | 'country' | 'browser') => {
 
     if (value) {
       if (!acc[value]) {
-        const country = key === 'country' ? detail.countryCode : undefined;
+        const country = key === 'country' ? detail.country_code : undefined;
         acc[value] = { name: value, count: 0, country };
       }
       acc[value].count += 1;
@@ -26,7 +26,7 @@ const generateDataCount = (key: 'os' | 'country' | 'browser') => {
     return acc;
   }, {}) || {};
 
-  return Object.values(result);
+  return Object.values(result).sort((a, b) => b.count - a.count);
 };
 
 onMounted(async () => {
@@ -60,16 +60,19 @@ const openAnalytics = () => {
     </button>
   </AppModal>
 
-  <div class="flex flex-col p-16 gap-y-5" v-if="data">
-    <div class="flex flex-col gap-y-2">
-      <h1 class="text-white font-semibold text-3xl">URL Analytics</h1>
+  <div class="flex flex-col gap-y-5" v-if="data">
+    <div class="flex flex-col gap-y-2 md:items-start items-center">
+      <h1 class="text-white font-semibold text-3xl">URL Analytics -
+        <span class="text-pink-500 border-t border-pink-500">{{data.details.length}}</span>
+        <span class="border-t border-pink-500"> clicks</span>
+      </h1>
       <div class="flex flex-row gap-x-2">
         <h1 class="font-medium text-gray-300 mt-0.5">{{data.original_url}}</h1>
-        <AppArrowIcon/>
+        <AppArrowIcon />
       </div>
     </div>
     <div class="border border-gray-700 rounded-lg">
-      <AppChart/>
+      <AppChart :data="data"/>
     </div>
     <div class="flex md:flex-row flex-col gap-y-5 gap-x-5 items-center justify-center">
       <AppCard
