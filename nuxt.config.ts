@@ -18,7 +18,7 @@ export default defineNuxtConfig({
                 {name: 'author', content: 'https://hatemobeidine.fr/'},
                 {name: 'robots', content: 'index, follow'},
                 {name: 'viewport', content: 'width=device-width, initial-scale=1.0'},
-                {name: 'theme-color', content: '#3f38dc'},
+                {name: 'theme-color', content: '#000000'},
                 {name: 'language', content: 'en'},
                 {property: 'og:title', content: 'LiteURL - Shorten & Track URLs'},
                 {
